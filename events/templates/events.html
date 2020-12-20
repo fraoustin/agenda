@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    {% for day in days %}
+        {% for event in day.events %}
+        <div class="siimple-tip siimple-tip--primary" style="border-left-color: {{ event.color }}">
+            {{ event.summary }}<br/>
+            {{ event.timestart }} {% if event.timeend %} - {{ event.timeend }} {% endif %}        
+        </div>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}

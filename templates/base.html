@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>{{ config['APP_NAME'] }}</title>
+        <link rel="shortcut icon" href="/css/favicon.ico" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
+        <!-- siimple -->
+        <link rel="stylesheet" href="/siimple/siimple.min.css">
+        <!-- jalt -->
+        <link rel="stylesheet" href="/css/agenda.css">
+        <link rel="stylesheet" href="/css/icon.css">
+        
+    </head>
+    <body>
+        {% if current_user.is_authenticated %}
+            <div class="siimple-navbar siimple-navbar--fluid siimple-navbar--primary no-print">
+                <div class="siimple-navbar-title"><a class="title" href="/">{{ config['APP_NAME'] }}</a></div>
+
+                <div class="siimple--float-right">
+                    {% block navbar %}{% endblock %}
+                    <a href="/currentuser" class="gravatar">
+                        <div class="siimple-btn icon-user"></div>
+                    </a>
+                    <a href="/logout"><div class="siimple-btn icon-out"></div></a>
+                </div>
+            </div>
+            <div class="siimple-navbar no-print"></div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="general siimple-tip siimple-tip--{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <div id="content" class="siimple-content--fluid">
+        {% endif %}
+        {% block body %}{% endblock %}
+        {% if current_user.is_authenticated %}
+            </div>
+        {% endif %}
+
+    </body>
+</html>

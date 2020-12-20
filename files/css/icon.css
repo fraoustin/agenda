@@ -1,0 +1,118 @@
+/* icon */
+
+@font-face{
+    font-family:icomoon;
+    src:url(./icomoon.woff) format('woff');
+    font-weight:400;
+    font-style:normal
+}
+
+.icon-user,
+.icon-out,
+.icon-del,
+.icon-save,
+.icon-info,
+.icon-close,
+.icon-search,
+.icon-download,
+.icon-add,
+.icon-edit,
+.icon-book,
+.icon-print,
+.icon-magical,
+.icon-medal,
+.icon-upload,
+.icon-filter,
+.icon-table,
+.icon-history,
+.icon-flag,
+.icon-param {
+    font-family: icomoon;
+    speak: none;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}
+
+.icon-user:before {
+    content: "\e900";
+}
+
+.icon-out:before {
+    content: "\e901";
+}
+
+.icon-del:before {
+    content: "\e902";
+}
+
+.icon-save:before {
+    content: "\e904"
+}
+
+.icon-info:before {
+    content: "\ea0c"
+}
+
+.icon-close:before {
+    content: "\e905"
+}
+
+.icon-search:before {
+    content: "\e906"
+}
+
+.icon-download:before {
+    content: "\e907"
+}
+
+.icon-add:before {
+    content: "\e908"
+}
+
+.icon-book:before {
+    content: "\e90b"
+}
+
+.icon-edit:before {
+    content: "\e90a"
+}
+
+.icon-print:before {
+    content: "\e909"
+}
+
+.icon-magical:before {
+    content: "\e90d"
+}
+
+.icon-medal:before {
+    content: "\e90c"
+}
+
+.icon-upload:before {
+    content: "\e90e"
+}
+
+.icon-filter:before {
+    content: "\e90f"
+}
+
+.icon-table:before {
+    content: "\e910"
+}
+
+.icon-history:before {
+    content: "\e911"
+}
+
+.icon-flag:before {
+    content: "\e912"
+}
+
+.icon-param:before {
+    content: "\e994"
+}
