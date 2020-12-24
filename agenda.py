@@ -13,7 +13,7 @@ AGENDA_DEBUG = toBoolean.get(os.environ.get('AGENDA_DEBUG', 'true'), True)
 AGENDA_START_WEEK_MONDAY = toBoolean.get(os.environ.get('AGENDA_START_WEEK_MONDAY', 'true'), True)
 AGENDA_HOST = os.environ.get('AGENDA_HOST', '0.0.0.0')
 AGENDA_DIR = os.environ.get('AGENDA_DIR', os.path.dirname(os.path.abspath(__file__)))
-AGENDA_CALDAV = os.environ.get('AGENDA_CALDAV', 'https://caldav.fraoustin.fr/')
+AGENDA_CALDAV = os.environ.get('AGENDA_CALDAV', 'https://mycaldav/')
 
 app = Flask(__name__)
 app.config["VERSION"] = "0.1.0"
