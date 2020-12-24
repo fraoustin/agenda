@@ -1,14 +1,18 @@
 # agenda
 
-TODO
+web interface for caldav
 
 ## Usage by docker
 
-    docker run -d -v <localpath>:/data --name mapit -p 5000:80 fraoustin/jlat
+    git clone https://github.com/fraoustin/agenda.git
+    cd agenda
+    docker build -t agenda .
+    docker run -d  -e AGENDA_CALDAV=http://mycaldav --name agenda -p 5000:80 agenda
 
 You can used the environment:
 
-- JLAT_PORT default 5000
-- JLAT_DEBUG default false
-- JLAT_HOST default 0.0.0.0
-- JLAT_DIR default /data
+- AGENDA_PORT 5000
+- AGENDA_DEBUG false
+- AGENDA_HOST 0.0.0.0
+- AGENDA_CALDAV http://localhost/
+- AGENDA_START_WEEK_MONDAY true
