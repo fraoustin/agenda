@@ -1,12 +1,154 @@
 {% extends 'base.html' %}
 
+
+{% block navbar %}
+
+            <div class="siimple-navbar siimple-navbar--fluid siimple-navbar--primary no-print">
+
+                <div class="siimple--float-left">
+                    <a href="{{ day.prev.link }}"><div class="siimple-btn icon-previous"></div></a>
+                </div>
+                <div class="siimple-navbar-title"><a class="title" href="/">{{ day }}</a></div>
+
+                <div class="siimple--float-right">
+                    <a href="{{ day.next.link }}"><div class="siimple-btn icon-next"></div></a>
+                </div>
+            </div>
+{% endblock %}
+
 {% block body %}
-    {% for day in days %}
-        {% for event in day.events %}
-        <div class="siimple-tip siimple-tip--primary" style="border-left-color: {{ event.color }}">
-            {{ event.summary }}<br/>
-            {{ event.timestart }} {% if event.timeend %} - {{ event.timeend }} {% endif %}        
+    <div class="siimple-table center">
+        <div class="siimple-table-body">
+            <div class="siimple-table-row">
+            {% for dayweek in day.days_of_week %}
+                <div class="siimple-table-cell no-border"><a href="{{ dayweek.link}}">{{ dayweek.a }}</a></div>
+            {% endfor %}
+            </div>
+            <div class="siimple-table-row">
+            {% for dayweek in day.days_of_week %}
+                <div class="siimple-table-cell no-border {% if dayweek.d == day.d %} selected siimple--color-error{% endif %}"><a href="{{ dayweek.link}}">{{ dayweek.d }}</a></div>
+            {% endfor %}
+            </div>
         </div>
-        {% endfor %}
+    </div>
+    <div href="/add" class="siimple-tip siimple-tip--primary icon-plus click" onclick="document.getElementById('newevent').style.display = '';">
+        <div class="classic">Add element ...</div>       
+    </div>
+    {% for event in day.events %}
+    <div class="siimple-tip siimple-tip--primary" style="border-left-color: {{ event.color }}"  onclick="document.getElementById('{{ event.uid }}').style.display = '';">
+        {{ event.summary }}<br/>
+        {{ event.timestart }} {% if event.timeend %} - {{ event.timeend }} {% endif %}        
+    </div>
+    <form action="/update"  method="POST" name="formupdate{{ event.uidsimple }}" enctype=multipart/form-data>
+    <div class="siimple-modal siimple-modal--medium" id="{{ event.uid }}" style="display:none;">
+        <div class="siimple-modal-content">
+            <div class="siimple-modal-header">
+                <div class="siimple-modal-header-title"><input type="text" class="siimple-input siimple-input--fluid" value="{{ event.summary }}"  name="summary" id="summary"></div>
+                <div class="siimple-modal-header-close" id="modal-close"></div>
+            </div>
+            <div class="siimple-modal-body">
+                <input type="text" class="siimple-input siimple-input--fluid alignr" value="{{ event.uid }}"  name="uid" id="uid" style="display:none;">
+                <table>
+                    <tr>
+                        <td><label class="siimple-label">From</label></td>
+                        <td class="inline">
+                            <input type="text" class="siimple-input siimple-input--fluid alignr" value="{{ event.daystart }}"  name="daystart" id="daystart">
+                            <input type="text" class="siimple-input alignr" value="{{ event.hourstart }}"  name="hourstart" id="hourstart">
+                            <input type="text" class="siimple-input alignr" value="{{ event.minstart }}"  name="minstart" id="minstart">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label class="siimple-label">To</label></td>
+                        <td class="inline">
+                            <input type="text" class="siimple-input siimple-input--fluid alignr" value="{{ event.dayend }}"  name="dayend" id="dayend">
+                            <input type="text" class="siimple-input alignr" value="{{ event.hourend }}"  name="hourend" id="hourend">
+                            <input type="text" class="siimple-input alignr" value="{{ event.minend }}"  name="minend" id="minend">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label class="siimple-label"></label></td>
+                        <td><textarea class="siimple-textarea siimple-textarea--fluid" rows="10"  name="description" id="description">{{ event.description }}</textarea></td>
+                    </tr>
+                    <tr>
+                </table>
+            </div>
+            <div class="siimple-modal-footer siimple--float-right">
+                <div class="siimple-btn siimple-btn--success" onclick="window.document.formupdate{{ event.uidsimple }}.submit()">Save</div>
+            </div>
+            <form action="/trash"  method="POST" name="formtrash{{ event.uidsimple }}" enctype=multipart/form-data>
+            <div class="siimple-modal-footer siimple--float-left">
+                <input type="text" class="siimple-input siimple-input--fluid alignr" value="{{ event.uid }}"  name="uid" id="uid" style="display:none;">
+                <input type="text" class="siimple-input siimple-input--fluid alignr" value="{{ event.daystart }}"  name="daystart" id="daystart" style="display:none;">
+                <input type="text" class="siimple-input alignr" value="{{ event.hourstart }}"  name="hourstart" id="hourstart" style="display:none;">
+                <input type="text" class="siimple-input alignr" value="{{ event.minstart }}"  name="minstart" id="minstart" style="display:none;">
+                <div class="siimple-btn siimple-btn--error" onclick="window.document.formtrash{{ event.uidsimple }}.submit()">Trash</div>
+            </div>
+            </form>
+        </div>
+    </div>
+    </form>
+    <form action="/trash"  method="POST" name="formtrash{{ event.uidsimple }}" enctype=multipart/form-data style="display:none">
+        <div class="siimple-modal-footer siimple--float-left">
+            <input type="text" class="siimple-input siimple-input--fluid alignr" value="{{ event.uid }}"  name="uid" id="uid">
+            <input type="text" class="siimple-input siimple-input--fluid alignr" value="{{ event.daystart }}"  name="daystart" id="daystart">
+            <input type="text" class="siimple-input alignr" value="{{ event.hourstart }}"  name="hourstart" id="hourstart">
+            <input type="text" class="siimple-input alignr" value="{{ event.minstart }}"  name="minstart" id="minstart">
+        </div>
+    </form>
     {% endfor %}
+    <form action="/add"  method="POST" name="formnew" enctype=multipart/form-data>
+    <div class="siimple-modal siimple-modal--medium" id="newevent" style="display:none;">
+        <div class="siimple-modal-content">
+            <div class="siimple-modal-header">
+                <div class="siimple-modal-header-title">New Event</div>
+                <div class="siimple-modal-header-close" id="modal-close"></div>
+            </div>
+            <div class="siimple-modal-body">
+                <table>
+                    <tr>
+                        <td><label class="siimple-label">Titre:</label></td>
+                        <td><input type="text" class="siimple-input siimple-input--fluid" placeholder="Title"   name="summary" id="summary"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="siimple-label">From</label></td>
+                        <td class="inline">
+                            <input type="text" class="siimple-input siimple-input--fluid alignr" value="{{ day }}"  name="daystart" id="daystart">
+                            <input type="text" class="siimple-input alignr" value="00"  name="hourstart" id="hourstart">
+                            <input type="text" class="siimple-input alignr" value="00"  name="minstart" id="minstart">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label class="siimple-label">To</label></td>
+                        <td class="inline">
+                            <input type="text" class="siimple-input siimple-input--fluid alignr" value="{{ day }}"  name="dayend" id="dayend">
+                            <input type="text" class="siimple-input alignr" value="00"  name="hourend" id="hourend">
+                            <input type="text" class="siimple-input alignr" value="00"  name="minend" id="minend">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label class="siimple-label"></label></td>
+                        <td><textarea class="siimple-textarea siimple-textarea--fluid" rows="10"  name="description" id="description"></textarea></td>
+                    </tr>
+                    <tr>
+                </table>
+            </div>
+            <div class="siimple-modal-footer siimple--float-right">
+                <div class="siimple-btn siimple-btn--success" onclick="window.document.formnew.submit()">Save</div>
+            </div>
+        </div>
+    </div>
+    </form>
+    <script>
+        var lst = document.getElementsByClassName("siimple-modal-header-close");
+        var j;
+        for (j = 0; j < lst.length; j++) {
+            lst[j].addEventListener("click", function () {
+                var x = document.getElementsByClassName("siimple-modal");
+                var i;
+                for (i = 0; i < x.length; i++) {
+                    x[i].style.display = "none";
+                }
+            });
+        }
+    </script>
 {% endblock %}

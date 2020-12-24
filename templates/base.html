@@ -12,17 +12,7 @@
     </head>
     <body>
         {% if current_user.is_authenticated %}
-            <div class="siimple-navbar siimple-navbar--fluid siimple-navbar--primary no-print">
-                <div class="siimple-navbar-title"><a class="title" href="/">{{ config['APP_NAME'] }}</a></div>
-
-                <div class="siimple--float-right">
-                    {% block navbar %}{% endblock %}
-                    <a href="/currentuser" class="gravatar">
-                        <div class="siimple-btn icon-user"></div>
-                    </a>
-                    <a href="/logout"><div class="siimple-btn icon-out"></div></a>
-                </div>
-            </div>
+            {% block navbar %}{% endblock %}
             <div class="siimple-navbar no-print"></div>
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}

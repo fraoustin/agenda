@@ -11,8 +11,6 @@ COPY ./files/ /agenda/files/
 WORKDIR /agenda/files/css
 RUN minify -o icon.css icon.css
 RUN minify -o agenda.css agenda.css
-WORKDIR /agenda/files/javascripts
-RUN minify -o agenda.js agenda.js
 
 FROM python:3.8-alpine
 
@@ -33,7 +31,8 @@ RUN pip install -r /agenda/REQUIREMENTS.txt
 ENV AGENDA_PORT 5000
 ENV AGENDA_DEBUG false
 ENV AGENDA_HOST 0.0.0.0
-ENV AGENDA_DIR http://localhost/
+ENV AGENDA_CALDAV http://localhost/
+ENV AGENDA_START_WEEK_MONDAY true
 
 EXPOSE 5000
 
