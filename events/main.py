@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import uuid
 
 from caldav.elements.ical import CalendarColor
+from caldav.elements import dav, cdav
 
 vcal = """BEGIN:VCALENDAR
 VERSION:2.0
@@ -184,8 +185,16 @@ def add():
     description = request.form['description']
     start = datetime.strptime("%s %s:%s" % (daystart, hourstart, minstart), '%d/%m/%Y %H:%M').strftime('%Y%m%dT%H%M00Z')
     end = datetime.strptime("%s %s:%s" % (dayend, hourend, minend), '%d/%m/%Y %H:%M').strftime('%Y%m%dT%H%M00Z')
+    if "%s:%s" % (hourstart, minstart) == "00:00" and start == end:
+        end = datetime.strptime("%s %s:%s" % (dayend, hourend, minend), '%d/%m/%Y %H:%M') + + timedelta(days=1)
+        end = end.strftime('%Y%m%dT%H%M00Z')
     uid = str(uuid.uuid4())
-    current_user.calendars[0].add_event(vcal % {'uid': uid, 'start': start, 'end': end, 'summary': summary, 'description': description})
+    calendar = current_user.calendars[0]
+    if len(current_app.config['AGENDA_DEFAULT']) > 0:
+        for cal in current_user.calendars:
+            if cal.get_properties([dav.DisplayName(),])['{DAV:}displayname'] == current_app.config['AGENDA_DEFAULT']:
+                calendar = cal
+    calendar.add_event(vcal % {'uid': uid, 'start': start, 'end': end, 'summary': summary, 'description': description})
     day = datetime.strptime(daystart, '%d/%m/%Y').strftime('%Y%m%d')
     return redirect(url_for('events.day', day=day))
 

@@ -9,14 +9,15 @@ from static import Static
 toBoolean = {'true': True, 'false':False}
 
 AGENDA_PORT = int(os.environ.get('AGENDA_PORT', '5000'))
-AGENDA_DEBUG = toBoolean.get(os.environ.get('AGENDA_DEBUG', 'true'), True)
+AGENDA_DEBUG = toBoolean.get(os.environ.get('AGENDA_DEBUG', 'false'), True)
 AGENDA_START_WEEK_MONDAY = toBoolean.get(os.environ.get('AGENDA_START_WEEK_MONDAY', 'true'), True)
 AGENDA_HOST = os.environ.get('AGENDA_HOST', '0.0.0.0')
 AGENDA_DIR = os.environ.get('AGENDA_DIR', os.path.dirname(os.path.abspath(__file__)))
 AGENDA_CALDAV = os.environ.get('AGENDA_CALDAV', 'https://mycaldav/')
+AGENDA_DEFAULT = os.environ.get('AGENDA_DEFAULT', '')
 
 app = Flask(__name__)
-app.config["VERSION"] = "0.1.0"
+app.config["VERSION"] = "0.2.0"
 
 app.config["APP_PORT"] = AGENDA_PORT
 app.config["APP_HOST"] = AGENDA_HOST
@@ -24,6 +25,7 @@ app.config["APP_DEBUG"] = AGENDA_DEBUG
 app.config["APP_DIR"] = AGENDA_DIR
 app.config["APP_CALDAV"] = AGENDA_CALDAV
 app.config["AGENDA_START_WEEK_MONDAY"] = AGENDA_START_WEEK_MONDAY
+app.config["AGENDA_DEFAULT"] = AGENDA_DEFAULT
 app.config["User"] = {}
 
 # register Auth

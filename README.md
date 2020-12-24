@@ -16,3 +16,4 @@ You can used the environment:
 - AGENDA_HOST 0.0.0.0
 - AGENDA_CALDAV http://localhost/
 - AGENDA_START_WEEK_MONDAY true
+- AGENDA_DEFAULT
